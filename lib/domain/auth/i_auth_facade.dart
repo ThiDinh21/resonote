@@ -4,12 +4,12 @@ import 'package:resonote/domain/auth/value_object.dart';
 
 abstract class IAuthFacade {
   Future<Either<AuthFailure, Unit>> registerWithEmailAndPassword({
-    required EmailAddress email,
+    required EmailAddress emailAddress,
     required Password password,
   });
 
 	Future<Either<AuthFailure, Unit>> signInWithEmailAndPassword({
-    required EmailAddress email,
+    required EmailAddress emailAddress,
     required Password password,
   });
 
