@@ -4,13 +4,23 @@ import 'package:dartz/dartz.dart';
 
 import 'package:resonote/domain/core/failures.dart';
 
+import 'errors.dart';
+
 @immutable
 abstract class ValueObject<T> {
   const ValueObject();
 
   Either<ValueFailure<T>, T> get value;
 
-	bool isValid() => value.isRight();
+	/// Throw [UnexpectedValueError] containing the [ValueFailure]
+  T? getOrCrash() {
+    value.fold(
+      (failure) => throw UnexpectedValueError(failure),
+      (r) => r,
+    );
+  }
+
+  bool isValid() => value.isRight();
 
   @override
   String toString() => 'Value($value)';
