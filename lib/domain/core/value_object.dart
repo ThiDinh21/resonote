@@ -2,9 +2,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:dartz/dartz.dart';
 
-import 'package:resonote/domain/core/failures.dart';
-
 import 'errors.dart';
+import 'failures.dart';
 
 @immutable
 abstract class ValueObject<T> {
@@ -12,7 +11,7 @@ abstract class ValueObject<T> {
 
   Either<ValueFailure<T>, T> get value;
 
-	/// Throw [UnexpectedValueError] containing the [ValueFailure]
+  /// Throw [UnexpectedValueError] containing the [ValueFailure]
   T? getOrCrash() {
     value.fold(
       (failure) => throw UnexpectedValueError(failure),

@@ -1,9 +1,11 @@
 import 'package:dartz/dartz.dart';
-import 'package:resonote/domain/core/failures.dart';
-import 'package:resonote/domain/core/value_object.dart';
-import 'package:resonote/domain/core/value_validators.dart';
+
+import '../core/failures.dart';
+import '../core/value_object.dart';
+import '../core/value_validators.dart';
 
 class EmailAddress extends ValueObject<String> {
+  @override
   final Either<ValueFailure<String>, String> value;
 
   factory EmailAddress(String input) {
@@ -16,6 +18,7 @@ class EmailAddress extends ValueObject<String> {
 }
 
 class Password extends ValueObject<String> {
+  @override
   final Either<ValueFailure<String>, String> value;
 
   factory Password(String input) {

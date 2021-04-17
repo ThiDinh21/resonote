@@ -3,16 +3,18 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:resonote/domain/auth/auth_failure.dart';
-import 'package:resonote/domain/auth/i_auth_facade.dart';
-import 'package:resonote/domain/auth/value_object.dart';
+import '../../../../domain/auth/auth_failure.dart';
+import '../../../../domain/auth/i_auth_facade.dart';
+import '../../../../domain/auth/value_object.dart';
 
 part 'sign_in_form_event.dart';
 part 'sign_in_form_state.dart';
 part 'sign_in_form_bloc.freezed.dart';
 
+@injectable
 class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
   final IAuthFacade _authFacade;
 

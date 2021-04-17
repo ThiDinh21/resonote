@@ -1,19 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
+import 'package:resonote/injection.dart';
+import 'package:resonote/presentation/core/app_widget.dart';
 
 void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: null, // MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
+  WidgetsFlutterBinding.ensureInitialized();
+  configureInjection(Environment.dev);
+  runApp(AppWidget());
 }

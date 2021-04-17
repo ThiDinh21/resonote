@@ -1,11 +1,14 @@
+import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:resonote/domain/auth/auth_failure.dart';
-import 'package:dartz/dartz.dart';
-import 'package:resonote/domain/auth/i_auth_facade.dart';
-import 'package:resonote/domain/auth/value_object.dart';
+import 'package:injectable/injectable.dart';
 
+import '../../domain/auth/auth_failure.dart';
+import '../../domain/auth/i_auth_facade.dart';
+import '../../domain/auth/value_object.dart';
+
+@LazySingleton(as: IAuthFacade)
 class FirebaseAuthFacade implements IAuthFacade {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
@@ -32,8 +35,9 @@ class FirebaseAuthFacade implements IAuthFacade {
     } on PlatformException catch (e) {
       if (e.code == 'email-already-in-use') {
         return left(const AuthFailure.emailAlreadyInUse());
-      } else
+      } else {
         return left(const AuthFailure.serverError());
+      }
     }
   }
 
@@ -54,8 +58,9 @@ class FirebaseAuthFacade implements IAuthFacade {
     } on PlatformException catch (e) {
       if (e.code == 'wrong-password') {
         return left(const AuthFailure.invalidEmailAndPasswordCombination());
-      } else
+      } else {
         return left(const AuthFailure.serverError());
+      }
     }
   }
 
