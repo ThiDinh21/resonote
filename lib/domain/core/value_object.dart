@@ -1,6 +1,7 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter/foundation.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:uuid/uuid.dart';
 
 import 'errors.dart';
 import 'failures.dart';
@@ -32,4 +33,20 @@ abstract class ValueObject<T> {
 
   @override
   int get hashCode => value.hashCode;
+}
+
+class UniqueID extends ValueObject<String> {
+  @override
+  final Either<ValueFailure<String>, String> value;
+
+  factory UniqueID() {
+    // ignore: prefer_const_constructors
+    return UniqueID._(Right(Uuid().v1()));
+  }
+
+  factory UniqueID.fromUniqueString(String uid) {
+    return UniqueID._(right(uid));
+  }
+
+  const UniqueID._(this.value);
 }

@@ -24,6 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   another_flushbar: ^1.10.18
+  auto_route: ^1.0.2
   cloud_firestore: ^1.0.5
   cupertino_icons: ^1.0.2
   dartz: ^0.10.0-nullsafety.1
@@ -34,10 +35,12 @@ dependencies:
   get_it: ^6.0.0
   google_sign_in: ^5.0.1
   injectable: ^1.2.2
+  uuid: ^3.0.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  auto_route_generator: ^1.0.2
   build_runner: null
   freezed: ^0.14.1+2
   injectable_generator: ^1.2.2

@@ -1,39 +1,35 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:resonote/presentation/sign_in/sign_in_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../application/auth/auth_bloc.dart';
+import '../../injection.dart';
+import '../routes/app_router.gr.dart';
 
 class AppWidget extends StatelessWidget {
-  final _fbApp = Firebase.initializeApp();
+  final _appRouter = AppRouter();
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Resonote',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark().copyWith(
-        primaryColor: Colors.amber,
-        accentColor: Colors.purple,
-        inputDecorationTheme: InputDecorationTheme(
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) =>
+              getIt<AuthBloc>()..add(const AuthEvent.authCheckRequested()),
         ),
-      ),
-      home: FutureBuilder(
-        // Initialize FlutterFire
-        future: _fbApp,
-        builder: (context, snapshot) {
-          // Check for errors
-          if (snapshot.hasError) {
-            return const Text('Something went wrong!');
-          }
-
-          // Once complete, show your application
-          if (snapshot.connectionState == ConnectionState.done) {
-            return SignInPage();
-          }
-
-          // Otherwise, show something whilst waiting for initialization to complete
-          return const CircularProgressIndicator();
-        },
+      ],
+      child: MaterialApp.router(
+        title: 'Resonote',
+        routerDelegate: _appRouter.delegate(),
+        routeInformationParser: _appRouter.defaultRouteParser(),
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData.dark().copyWith(
+          primaryColor: Colors.amber,
+          accentColor: Colors.purple,
+          inputDecorationTheme: InputDecorationTheme(
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+          ),
+        ),
       ),
     );
   }
