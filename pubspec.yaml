@@ -25,16 +25,17 @@ dependencies:
     sdk: flutter
   another_flushbar: ^1.10.18
   auto_route: ^1.0.2
-  cloud_firestore: ^1.0.5
+  cloud_firestore: ^1.0.6
   cupertino_icons: ^1.0.2
   dartz: ^0.10.0-nullsafety.1
-  firebase_auth: ^1.1.0
-  firebase_core: ^1.0.3
+  firebase_auth: ^1.1.1
+  firebase_core: ^1.0.4
   flutter_bloc: ^7.0.0
   freezed_annotation: ^0.14.1
-  get_it: ^6.0.0
-  google_sign_in: ^5.0.1
+  get_it: ^6.1.1
+  google_sign_in: ^5.0.2
   injectable: ^1.2.2
+  kt_dart: ^0.9.0
   uuid: ^3.0.4
 
 dev_dependencies:

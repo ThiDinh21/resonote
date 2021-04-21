@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 
@@ -21,6 +20,10 @@ class FirebaseAuthFacade implements IAuthFacade {
   );
 
   @override
+  Future<Option<AppUser>> getSignedInUser() async =>
+      optionOf(_firebaseAuth.currentUser?.toDomain());
+
+  @override
   Future<Either<AuthFailure, Unit>> registerWithEmailAndPassword({
     required EmailAddress emailAddress,
     required Password password,
@@ -34,7 +37,7 @@ class FirebaseAuthFacade implements IAuthFacade {
         password: passwordStr!,
       );
       return right(unit);
-    } on PlatformException catch (e) {
+    } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         return left(const AuthFailure.emailAlreadyInUse());
       } else {
@@ -50,15 +53,15 @@ class FirebaseAuthFacade implements IAuthFacade {
   }) async {
     final emailAddressStr = emailAddress.getOrCrash();
     final passwordStr = password.getOrCrash();
-
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
         email: emailAddressStr!,
         password: passwordStr!,
       );
       return right(unit);
-    } on PlatformException catch (e) {
-      if (e.code == 'wrong-password') {
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'ERROR_WRONG_PASSWORD' ||
+          e.code == 'ERROR_USER_NOT_FOUND') {
         return left(const AuthFailure.invalidEmailAndPasswordCombination());
       } else {
         return left(const AuthFailure.serverError());
@@ -82,15 +85,9 @@ class FirebaseAuthFacade implements IAuthFacade {
 
       await _firebaseAuth.signInWithCredential(authCredential);
       return right(unit);
-    } on PlatformException catch (_) {
+    } on FirebaseAuthException catch (_) {
       return left(const AuthFailure.serverError());
     }
-  }
-
-  @override
-  Option<AppUser> getSignedInUser() {
-    final firebaseUser = _firebaseAuth.currentUser;
-    return optionOf(firebaseUser?.toDomain());
   }
 
   @override

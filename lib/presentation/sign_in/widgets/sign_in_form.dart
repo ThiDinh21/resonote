@@ -13,6 +13,7 @@ class SignInForm extends StatelessWidget {
         return Form(
           autovalidateMode: AutovalidateMode.onUserInteraction,
           child: ListView(
+            padding: const EdgeInsets.all(8),
             children: [
               const SizedBox(height: 8),
               const Text(
@@ -67,21 +68,23 @@ class SignInForm extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                      child: TextButton(
-                    onPressed: () {
-                      context.read<SignInFormBloc>().add(const SignInFormEvent
-                          .signInWithEmailAndPasswordPressed());
-                    },
-                    child: const Text('Sign In'),
-                  )),
+                    child: TextButton(
+                      onPressed: () {
+                        context.read<SignInFormBloc>().add(const SignInFormEvent
+                            .signInWithEmailAndPasswordPressed());
+                      },
+                      child: const Text('Sign In'),
+                    ),
+                  ),
                   Expanded(
-                      child: TextButton(
-                    onPressed: () {
-                      context.read<SignInFormBloc>().add(const SignInFormEvent
-                          .registerWithEmailAndPasswordPressed());
-                    },
-                    child: const Text('Register'),
-                  )),
+                    child: TextButton(
+                      onPressed: () {
+                        context.read<SignInFormBloc>().add(const SignInFormEvent
+                            .registerWithEmailAndPasswordPressed());
+                      },
+                      child: const Text('Register'),
+                    ),
+                  ),
                 ],
               ),
               ElevatedButton(
@@ -98,6 +101,10 @@ class SignInForm extends StatelessWidget {
                   ),
                 ),
               ),
+              if (state.isSubmitting) ...[
+                const SizedBox(height: 8),
+                const LinearProgressIndicator(),
+              ]
             ],
           ),
         );
@@ -108,11 +115,11 @@ class SignInForm extends StatelessWidget {
           (either) => either.fold(
             (AuthFailure fail) {
               FlushbarHelper.createError(
-                  message: fail.map(
-                cancelledByUser: (_) => 'Cancelled',
-                serverError: (_) => 'Server error',
-                emailAlreadyInUse: (_) => 'Email already in used',
-                invalidEmailAndPasswordCombination: (_) =>
+                  message: fail.when(
+                cancelledByUser: () => 'Cancelled',
+                serverError: () => 'Server error',
+                emailAlreadyInUse: () => 'Email already in used',
+                invalidEmailAndPasswordCombination: () =>
                     'Wrong email or password',
               ));
             },
