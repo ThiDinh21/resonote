@@ -20,6 +20,13 @@ abstract class ValueObject<T> {
     );
   }
 
+  Either<ValueFailure<dynamic>, Unit> get failureOrUnit {
+    return value.fold(
+      (f) => left(f),
+      (_) => right(unit),
+    );
+  }
+
   bool isValid() => value.isRight();
 
   @override

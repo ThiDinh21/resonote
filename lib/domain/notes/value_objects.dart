@@ -5,7 +5,7 @@ import 'package:kt_dart/collection.dart';
 import 'package:resonote/domain/core/failures.dart';
 import 'package:resonote/domain/core/value_object.dart';
 import 'package:resonote/domain/core/value_validators.dart';
-import 'package:resonote/domain/notes/value_transformer.dart';
+import 'package:resonote/domain/core/value_transformer.dart';
 
 class NoteBody extends ValueObject<String> {
   @override
